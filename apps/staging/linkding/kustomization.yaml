@@ -5,3 +5,4 @@ metadata:
   namespace: linkding
 resources: 
   - ../../base/linkding/
+  - cloudflare.yaml
