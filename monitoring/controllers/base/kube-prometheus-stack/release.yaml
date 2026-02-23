@@ -25,7 +25,15 @@ spec:
       - paths: ["/metadata/annotations/prometheus-operator-validated"]
         target:
           kind: PrometheusRule
-  # values:
+  values:
+    grafana:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - grafana.yuriseki.com
+
+
   #   grafana:
   #     adminPassword: my_strong_password
 
