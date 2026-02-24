@@ -32,8 +32,7 @@ spec:
         ingressClassName: traefik
         hosts:
           - grafana.yuriseki.com
-
-
-  #   grafana:
-  #     adminPassword: my_strong_password
-
+        tls:
+          - secretName: grafana-tls-secret
+            hosts:
+              - grafana.yuriseki.com
