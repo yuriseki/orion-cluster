@@ -5,6 +5,5 @@ metadata:
   namespace: audiobookshelf
 resources:
   - ../../base/audiobookshelf/
-  # - cloudflare.yaml
-  # - cloudflare-secret.yaml
-  # - linkding-container-env-secret.yaml
+  - cloudflare.yaml
+  - cloudflare-secret.yaml
