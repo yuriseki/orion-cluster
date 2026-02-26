@@ -11,7 +11,19 @@ spec:
       storage: 2Gi
 
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-books-pvc
+  namespace: audiobookshelf
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -25,7 +37,6 @@ spec:
       storage: 1Gi
 
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -39,7 +50,6 @@ spec:
       storage: 50Mi
 
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
