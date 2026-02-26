@@ -4,10 +4,9 @@ metadata:
   name: audiobookshelf-service
   namespace: audiobookshelf
 spec:
-  selector:
-    app: audiobookshelf  
   ports:
     - port: 3005
-
+  selector:
+    app: audiobookshelf  
   type: ClusterIP
 
