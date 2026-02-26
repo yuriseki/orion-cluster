@@ -5,3 +5,4 @@ metadata:
   namespace: audiobookshelf
 data:
   TZ: America/Sao_Paulo
+  PORT: "3005"
