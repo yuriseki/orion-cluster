@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+name: n8n-db-storage-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
