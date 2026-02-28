@@ -12,10 +12,10 @@ spec:
       labels:
         app: n8n
     spec:
-      # securityContext:
-      #   fsGroup: 1000 # node group ID
-      #   runAsUser: 1000 # node user ID
-      #   runAsGroup: 1000 # node group ID
+      securityContext:
+        fsGroup: 1000 # node group ID
+        runAsUser: 1000 # node user ID
+        runAsGroup: 1000 # node group ID
 
       containers:
         - name: n8n
@@ -23,53 +23,10 @@ spec:
           ports:
             - containerPort: 5678
               protocol: TCP
-
-          envFrom:
-            - configMapRef:
-                name: n8n-configmap
-            - secretRef:
-                name: n8n-container-env
-
-          securityContext:
-            allowPrivilegeEscalation: false
-
-          # volumeMounts:
-          #   - mountPath: "/var/lib/postgresql/data"
-          #     name: db-storage
-              
-      restartPolicy: Always
-
-      # volumes:
-      #   - name: db-storage
-      #     persistentVolumeClaim:
-      #       claimName: n8n-db-storage-pvc
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: n8n-postgres
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: n8n-postgres
-  template:
-    metadata:
-      labels:
-        app: n8n-postgres
-    spec:
-      # securityContext:
-      #   fsGroup: 1000 # node group ID
-      #   runAsUser: 1000 # node user ID
-      #   runAsGroup: 1000 # node group ID
-
-      containers:
-        - name: n8n-postgres
+        - name: postgres
           image: postgres:18.3
           ports:
-            - containerPort: 5678
+            - containerPort: 5432
               protocol: TCP
 
           envFrom:
@@ -81,14 +38,19 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
 
-          # volumeMounts:
-          #   - mountPath: "/var/lib/postgresql/data"
-          #     name: db-storage
+          volumeMounts:
+            - mountPath: "/home/node/.n8n"
+              name: n8n-storage
+            - mountPath: "/var/lib/postgresql/data"
+              name: db-storage
               
       restartPolicy: Always
 
-      # volumes:
-      #   - name: db-storage
-      #     persistentVolumeClaim:
-      #       claimName: n8n-db-storage-pvc
+      volumes:
+        - name: n8n-storage
+          persistentVolumeClaim:
+            claimName: n8n-storage-pvc
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: n8n-db-storage-pvc
 
