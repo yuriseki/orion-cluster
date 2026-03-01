@@ -56,7 +56,7 @@ spec:
             runAsGroup: 999 # postgres group ID
 
           volumeMounts:
-            - mountPath: "/var/lib/postgresql/data"
+            - mountPath: "/var/lib/postgresql"
               name: db-storage
               
       restartPolicy: Always
