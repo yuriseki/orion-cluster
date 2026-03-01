@@ -26,6 +26,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: n8n-configmap
+            - secretRef:
+                name: n8n-container-env
 
           securityContext:
             allowPrivilegeEscalation: false
