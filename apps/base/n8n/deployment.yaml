@@ -59,6 +59,7 @@ spec:
             - mountPath: "/var/lib/postgresql"
               name: db-storage
               
+      enableServiceLinks: false
       restartPolicy: Always
 
       volumes:
