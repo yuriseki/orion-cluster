@@ -24,7 +24,7 @@ spec:
             - "host.docker.internal"
       containers:
         - name: jellyfin
-          image: ghcr.io/hotio/jellyfin:2026030905
+          image: ghcr.io/hotio/jellyfin:release-10.11.6
           ports:
             - containerPort: 8096
               protocol: TCP
