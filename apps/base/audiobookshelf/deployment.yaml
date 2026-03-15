@@ -37,7 +37,7 @@ spec:
               name: audiobookshelf-audiobooks
             - mountPath: "/books"
               name: audiobookshelf-books
-            - mountPath: "//podcasts"
+            - mountPath: "/podcasts"
               name: audiobookshelf-podcasts
             - mountPath: "/config"
               name: audiobookshelf-config

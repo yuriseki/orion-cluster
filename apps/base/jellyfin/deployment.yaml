@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: jellyfin
+  namespace: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      #   fsGroup: 1000
+
+      hostAliases:
+        - ip: "192.168.0.110"
+      containers:
+        - name: jellyfin
+          image: ghcr.io/hotio/jellyfin:2026030905
+          ports:
+            - containerPort: 8096
+              protocol: TCP
+            - containerPort: 7359
+              protocol: UDP
+
+          envFrom:
+            - configMapRef:
+              name: jellyfin-config
+
+          volumeMounts:
+            - mountPath: "/jellyfin/config"
+              name: jellyfin-config
+            - mountPath: "/jellyfin/cache"
+              name: jellyfin-cache
+            - mountPath: "/jellyfin/media"
+              name: jellyfin-media
+            - mountPath: "/jellyfin/media2"
+              name: jellyfin-media2
+
+          resources:
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            initDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+
+      restartPolicy: Always
+
+      volumes:
+        - name: config
+          persistentVolumneClaim:
+            clainName: jellyfin-config-pvc
+        - name: cache
+          persistentVolumneClaim:
+            clainName: jellyfin-cache-pvc
+        - name: media
+          persistentVolumneClaim:
+          clainName: jellyfin-media-pvc
+        - name: media2
+          persistentVolumneClaim:
+          clainName: jellyfin-media2-pvc
