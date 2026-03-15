@@ -3,6 +3,5 @@ kind: Kustomization
 namespace: jellyfin
 resources:
   - ../../base/jellyfin/
-  # - n8n-container-env-secret.yaml
-  # - cloudflare.yaml
-  # - cloudflare-secret.yaml
+  - cloudflare.yaml
+  - cloudflare-secret.yaml
