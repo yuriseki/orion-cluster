@@ -38,7 +38,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
   hostPath:
-    path: /jellyfin/media
+    path: /home/yuri/jellyfin/media
     type: Directory
 
 ---
@@ -71,7 +71,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
   hostPath:
-    path: /jellyfin/media2
+    path: /home/yuri/jellyfin/media2
     type: Directory
 
 ---
