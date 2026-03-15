@@ -36,11 +36,11 @@ spec:
                 name: jellyfin-config
 
           volumeMounts:
-            - mountPath: "/jellyfin/config"
+            - mountPath: "/config"
               name: jellyfin-config
-            - mountPath: "/jellyfin/cache"
+            - mountPath: "/cache"
               name: jellyfin-cache
-            - mountPath: "home/yuri/jellyfin/media"
+            - mountPath: "/home/yuri/jellyfin/media"
               name: jellyfin-media
             - mountPath: "/home/yuri/jellyfin/media2"
               name: jellyfin-media2
