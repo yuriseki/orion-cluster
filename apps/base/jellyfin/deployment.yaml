@@ -20,6 +20,8 @@ spec:
 
       hostAliases:
         - ip: "192.168.0.110"
+          hostnames:
+            - "host.docker.internal"
       containers:
         - name: jellyfin
           image: ghcr.io/hotio/jellyfin:2026030905
@@ -31,7 +33,7 @@ spec:
 
           envFrom:
             - configMapRef:
-              name: jellyfin-config
+                name: jellyfin-config
 
           volumeMounts:
             - mountPath: "/jellyfin/config"
@@ -55,7 +57,7 @@ spec:
             httpGet:
               path: /health
               port: 8096
-            initDelaySeconds: 60
+            initialDelaySeconds: 60
             periodSeconds: 30
             timeoutSeconds: 5
 
@@ -70,15 +72,15 @@ spec:
       restartPolicy: Always
 
       volumes:
-        - name: config
-          persistentVolumneClaim:
-            clainName: jellyfin-config-pvc
-        - name: cache
-          persistentVolumneClaim:
-            clainName: jellyfin-cache-pvc
-        - name: media
-          persistentVolumneClaim:
-          clainName: jellyfin-media-pvc
-        - name: media2
-          persistentVolumneClaim:
-          clainName: jellyfin-media2-pvc
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config-pvc
+        - name: jellyfin-cache
+          persistentVolumeClaim:
+            claimName: jellyfin-cache-pvc
+        - name: jellyfin-media
+          persistentVolumeClaim:
+            claimName: jellyfin-media-pvc
+        - name: jellyfin-media2
+          persistentVolumeClaim:
+            claimName: jellyfin-media2-pvc
