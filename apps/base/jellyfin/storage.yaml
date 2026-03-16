@@ -32,7 +32,7 @@ metadata:
   name: jellyfin-media-pv
 spec:
   capacity:
-    storage: 20Gi
+    storage: 1Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -54,7 +54,7 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 20Gi
+      storage: 1Gi
   volumeName: jellyfin-media-pv
 
 ---
@@ -65,7 +65,7 @@ metadata:
   name: jellyfin-media2-pv
 spec:
   capacity:
-    storage: 20Gi
+    storage: 1Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -87,6 +87,6 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 20Gi
+      storage: 1Gi
   volumeName: jellyfin-media2-pv
 
