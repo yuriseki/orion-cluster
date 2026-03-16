@@ -40,10 +40,10 @@ spec:
               name: jellyfin-config
             - mountPath: "/cache"
               name: jellyfin-cache
-            - mountPath: "/home/yuri/jellyfin/media"
-              name: jellyfin-media
-            - mountPath: "/home/yuri/jellyfin/media2"
-              name: jellyfin-media2
+            - mountPath: "/home/yuri/jellyfin/movies"
+              name: jellyfin-movies
+            - mountPath: "/home/yuri/jellyfin/series"
+              name: jellyfin-series
 
           resources:
             limits:
@@ -78,9 +78,9 @@ spec:
         - name: jellyfin-cache
           persistentVolumeClaim:
             claimName: jellyfin-cache-pvc
-        - name: jellyfin-media
+        - name: jellyfin-movies
           persistentVolumeClaim:
-            claimName: jellyfin-media-pvc
-        - name: jellyfin-media2
+            claimName: jellyfin-movies-pvc
+        - name: jellyfin-series
           persistentVolumeClaim:
-            claimName: jellyfin-media2-pvc
+            claimName: jellyfin-series-pvc

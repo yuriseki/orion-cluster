@@ -1,3 +1,7 @@
+# config and cache use dynamic provisioning via the default local-path StorageClass.
+# Kubernetes automatically creates the PV on the node — no manual PV needed.
+# These store Jellyfin's application state (settings, db, metadata) and transcode cache.
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -26,27 +30,36 @@ spec:
 
 ---
 
+# Media volumes use static provisioning because the cluster's default StorageClass
+# (local-path) does not support NFS. We manually define a PV with the NFS connection
+# details, then a PVC that binds to it by name via `volumeName`. This bypasses dynamic
+# provisioning entirely (storageClassName: "" disables it).
+#
+# The NFS server is the local computer at 192.168.0.30, which exports the media folders.
+# Kubernetes (on orion) mounts them automatically — no manual mount on the node needed.
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jellyfin-media-pv
+  name: jellyfin-movies-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 1Gi # Informational only — Kubernetes does not enforce quotas on NFS volumes.
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
-  hostPath:
-    path: /home/yuri/jellyfin/media
-    type: Directory
+  nfs:
+    server: 192.168.0.30
+    path: /home/yuri/Videos/movies
+    readOnly: true
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-media-pvc
+  name: jellyfin-movies-pvc
   namespace: jellyfin
 spec:
   accessModes:
@@ -54,32 +67,33 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 1Gi
-  volumeName: jellyfin-media-pv
+      storage: 1Gi # Informational only — must match the PV to allow binding.
+  volumeName: jellyfin-movies-pv # Binds directly to the PV above by name.
 
 ---
 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jellyfin-media2-pv
+  name: jellyfin-series-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 1Gi # Informational only — Kubernetes does not enforce quotas on NFS volumes.
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
-  hostPath:
-    path: /home/yuri/jellyfin/media2
-    type: Directory
+  nfs:
+    server: 192.168.0.30
+    path: /home/yuri/Videos/series
+    readOnly: true
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-media2-pvc
+  name: jellyfin-series-pvc
   namespace: jellyfin
 spec:
   accessModes:
@@ -87,6 +101,5 @@ spec:
   storageClassName: ""
   resources:
     requests:
-      storage: 1Gi
-  volumeName: jellyfin-media2-pv
-
+      storage: 1Gi # Informational only — must match the PV to allow binding.
+  volumeName: jellyfin-series-pv # Binds directly to the PV above by name.
